@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPWT Vehicle Registration</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Khmer OS Battambang', 'Segoe UI', Arial, sans-serif;
+            background-color: #fff;
+            color: #333;
+        }
+
+        /* Top Blue Header */
+        .header-top {
+            background: linear-gradient(to bottom, #004a80, #003366);
+            color: white;
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-box {
+            width: 50px;
+            height: 50px;
+            margin-right: 12px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+            color: #004a80;
+            font-weight: bold;
+        }
+
+        .header-text { line-height: 1.2; }
+        .header-kh { font-size: 1.05rem; font-weight: bold; }
+        .header-en { font-size: 0.9rem; opacity: 0.9; }
+
+        /* Dark Navy Bar */
+        .sub-bar {
+            background-color: #0b243d;
+            color: white;
+            padding: 12px 15px;
+            font-size: 0.95rem;
+            font-weight: 300;
+        }
+
+        /* Toggle Buttons */
+        .lang-switch {
+            display: flex;
+            max-width: 500px;
+            margin: 15px auto;
+            padding: 0 15px;
+        }
+
+        .lang-btn {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            background: #fff;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .lang-btn.active {
+            background-color: #2e5a88;
+            color: white;
+            border-color: #2e5a88;
+        }
+
+        /* Content Area */
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 0 15px 40px 15px;
+        }
+
+        .plate-title {
+            text-align: center;
+            color: #2e5a88;
+            font-size: 1.7rem;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+
+        /* Data Frame */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 2.5px solid #3498db;
+            border-radius: 2px;
+        }
+
+        .data-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            font-size: 0.95rem;
+        }
+
+        .data-table tr:nth-child(even) { background-color: #fcfcfc; }
+
+        .label { font-weight: bold; width: 42%; color: #222; }
+        .value { color: #555; text-transform: uppercase; }
+
+        /* Warning Box */
+        .warning {
+            margin-top: 25px;
+            background-color: #fce4e4;
+            color: #c0392b;
+            padding: 15px;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        /* Bottom Floating Refresh Icon */
+        .refresh-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #2e5a88;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-top">
+        <img src="https://ts-rnpwt-gov-kh.github.io/P2P0112D5E8/logo.png"  class="logo-box"><!--SYNH</div>-->
+        <div class="header-text">
+            <div class="header-kh">ក្រសួងសាធារណការ និងដឹកជញ្ជូន</div>
+            <div class="header-en">Ministry of Public Works and Transport</div>
+        </div>
+    </div>
+
+    <div class="sub-bar" id="subBar">ព័ត៌មានយានជំនិះដែលបានចុះបញ្ជី</div>
+
+    <div class="lang-switch">
+        <button id="btnKm" class="lang-btn active" onclick="switchLang('km')">ភាសាខ្មែរ</button>
+        <button id="btnEn" class="lang-btn" onclick="switchLang('en')">English</button>
+    </div>
+
+    <div class="container">
+        <div class="plate-title" id="plateTitle">ភ្នំពេញ 1LZ-3000</div>
+
+        <table class="data-table">
+            <tr><td class="label" id="lblPlate">ផ្លាកលេខ</td><td class="value" id="valPlate">ភ្នំពេញ 1LZ-0030</td></tr>
+            <tr><td class="label" id="lblBrand">ម៉ាក</td><td class="value"> HONDA DREAM</td></tr>
+            <tr><td class="label" id="lblType">ប្រភេទ</td><td class="value" id="valType">ទោចក្រយានយន្ត</td></tr>
+            <tr><td class="label" id="lblColor">ពណ៌</td><td class="value" id="valColor">ខ្មៅ</td></tr>
+            <tr><td class="label" id="lblEngine">លេខម៉ាស៊ីន</td><td class="value">MH1J*****4057</td></tr><!--ND125NE-0403173-->
+            <tr><td class="label" id="lblChassis">លេខតួ</td><td class="value">JM51E16*****4757</td></tr><!--ND125N0403173-->
+            <tr><td class="label" id="lblPower">កម្លាំងម៉ាស៊ីន</td><td class="value">125CC</td></tr>
+            <tr><td class="label" id="lblCyl">ទំហំស៊ីឡាំង</td><td class="value">123.93</td></tr>
+            <tr><td class="label" id="lblYear">ឆ្នាំផលិត</td><td class="value">2026</td></tr>
+        </table>
+
+        <div class="warning" id="warningText">
+            អ្នកក្លែងព័ត៌មាន QR Code នៃបណ្ណសម្គាល់យានយន្ត<br>នឹងត្រូវផ្ដន្ទាទោសតាមច្បាប់
+        </div>
+    </div>
+
+    <div class="refresh-icon">🔄</div>
+
+    <script>
+        function switchLang(lang) {
+            const btnKm = document.getElementById('btnKm');
+            const btnEn = document.getElementById('btnEn');
+            
+            if (lang === 'en') {
+                btnEn.classList.add('active');
+                btnKm.classList.remove('active');
+
+                // Update Labels
+                document.getElementById('subBar').innerText = "Registered Vehicle Information";
+                document.getElementById('lblPlate').innerText = "License Plate";
+                document.getElementById('lblBrand').innerText = "Brand";
+                document.getElementById('lblType').innerText = "Vehicle Type";
+                document.getElementById('lblColor').innerText = "Color";
+                document.getElementById('lblEngine').innerText = "Engine Number";
+                document.getElementById('lblChassis').innerText = "Chassis Number";
+                document.getElementById('lblPower').innerText = "Engine Power";
+                document.getElementById('lblCyl').innerText = "Cylinder Size";
+                document.getElementById('lblYear').innerText = "Year of Mfg";
+
+                // Update Values (The fix you requested)
+                document.getElementById('plateTitle').innerText = "PHNOM PHENH 1LZ-3000";
+                document.getElementById('valPlate').innerText = "PHNOM PHENH 1LZ-3000";
+                document.getElementById('valType').innerText = "MOTORCYCLE";
+                document.getElementById('valColor').innerText = "123";
+                
+                document.getElementById('warningText').innerHTML = "Anyone who counterfeits the information in QR <br>Code of this vehicle identification card will be <br>convicted by law";
+            } else {
+                btnKm.classList.add('active');
+                btnEn.classList.remove('active');
+
+                // Restore Khmer
+                document.getElementById('subBar').innerText = "ព័ត៌មានយានជំនិះដែលបានចុះបញ្ជី";
+                document.getElementById('lblPlate').innerText = "ផ្លាកលេខ";
+                document.getElementById('lblBrand').innerText = "ម៉ាក";
+                document.getElementById('lblType').innerText = "ប្រភេទ";
+                document.getElementById('lblColor').innerText = "ពណ៌";
+                document.getElementById('lblEngine').innerText = "លេខម៉ាស៊ីន";
+                document.getElementById('lblChassis').innerText = "លេខតួ";
+                document.getElementById('lblPower').innerText = "កម្លាំងម៉ាស៊ីន";
+                document.getElementById('lblCyl').innerText = "ទំហំស៊ីឡាំង";
+                document.getElementById('lblYear').innerText = "ឆ្នាំផលិត";
+
+                document.getElementById('plateTitle').innerText = "ភ្នំពេញ 1LZ-0030";
+                document.getElementById('valPlate').innerText = "ភ្នំពេញ 1LZ-0030";
+                document.getElementById('valType').innerText = "ទោចក្រយានយន្ត";
+                document.getElementById('valColor').innerText = "ប្រផេះ";
+
+                document.getElementById('warningText').innerHTML = "អ្នកក្លែងព័ត៌មាន QR Code នៃបណ្ណសម្គាល់យានយន្ត<br>នឹងត្រូវផ្ដន្ទាទោសតាមច្បាប់";
+            }
+        }
+    </script>
+</body>
+</html>
